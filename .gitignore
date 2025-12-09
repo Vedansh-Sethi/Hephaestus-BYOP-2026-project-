@@ -1,0 +1,21 @@
+# .gitignore
+
+# Python junk
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments (Never commit your virtual env!)
+venv/
+env/
+.env
+
+# IDE settings (Nobody wants your VSCode settings)
+.vscode/
+.idea/
+
+# Large Data (GitHub has a 100MB limit)
+*.pt
+*.pth
+data/
+dataset/
