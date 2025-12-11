@@ -19,3 +19,5 @@ env/
 *.pth
 data/
 dataset/
+
+assets/
