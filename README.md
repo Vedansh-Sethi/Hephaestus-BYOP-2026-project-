@@ -67,6 +67,92 @@
         ![](./assets/loss_graph_beta=2.5_dsprites.png)
         - Reconstruction -
         ![](./assets/reconstruction_beta=2.5_dsprites.png)
-        - Latent Space Traveral -
+        - Latent Space Traversal -
         ![](./assets/latent_space_traversal_beta=2.5_dsprites.png)
-        
+      
+
+- Training Gamma VAE on dsprites -
+
+  - Model Architecture (Feed Forward Network) -
+
+    - Encoder - 4096 => 1024 => 256 => 64 => 10 (mu, logvar) (All layers have ReLU activation except last one)
+    - Decoder - 10 => 64 => 256 => 1024 => 4096 
+    (all layers have ReLU activation except last, which has sigmoid activation)
+    - Optimiser - Adam
+  
+  - Hyperparameters (1) -
+
+    - LR = 1e-3
+    - Epochs - 80
+    - Cutoff epoch - 60
+    - Gamma - 100
+    - Maximum capacity (per image) - 25
+  
+  - Results -
+    
+    - Loss graph -
+      ![](./assets/loss_graph_GammaVAE_linear.png)
+    - Reconstruction -
+      ![](./assets/reconstruction_GammaVAE_linear.png)
+    - Latent Space Traversal -
+      ![](./assets/latent_traversal_GammaVAE_linear.png)
+  
+  - Hyperparameters (2) -
+
+    - LR = 5e-4
+    - Epochs - 80
+    - Cutoff epoch - 60
+    - Gamma Max - 100
+    - Gamma Min - 20
+    - Maximum capacity (per image) - 25
+
+  - Results -
+    
+    - Loss graph -
+      ![](./assets/loss_graph_decayingGammaVAE_linear.png)
+    - Reconstruction -
+      ![](./assets/reconstruction_decayingGammaVAE_linear.png)
+    - Latent Space Traversal -
+      ![](./assets/latent_traversal_decayingGammaVAE_linear.png)
+    
+  - Model Architecture (CNNs) -
+
+    - Encoder - (1, 64, 64) => (32, 32, 32) => (32, 16, 16) => (32, 8, 8) => (32, 4, 4) -> 512 => 256 => 64 => 10 (myu, logvar)
+    - Decoder - 10 => 64 => 256 => 512 -> (32, 4, 4) => (32, 8, 8) => (32, 16, 16) => (32, 32, 32) => (1, 64, 64)
+    - Optimiser - Adam
+  
+  - Hyperparameters (1) -
+
+    - LR = 5e-4
+    - Epochs - 80
+    - Cutoff Epoch - 60
+    - Gamma - 10
+    - Maximum Capacity (per image) - 25
+
+  - Results -
+
+    - Loss Graph -
+      ![](./assets/loss_graph_GammaVAE_CNN.png)
+    - Reconstruction -
+      ![](./assets/reconstruction_GammaVAE_CNN.png)
+    - Latent Space Traversal -
+      ![](./assets/latent_traversal_GammaVAE_CNN.png)
+  
+  - Hyperparameters (2) -
+    
+    - LR = 5e-4
+    - Epochs - 100
+    - Cutoff epochs - 60
+    - Gamma max - 10
+    - Gamma min - 2
+    - Maximum Capacity (per image) - 25
+  
+  - Results - 
+    
+    - Loss graph -
+      ![](./assets/loss_graph_decayingGammaVAE_CNN.png)
+    - Reconstruction -
+      ![](./assets/reconstruction_decayingGammaVAE_CNN.png)
+    - Latent Space Traversal -
+      ![](./assets/latent_traversal_decayingGammaVAE_CNN.png)
+  
