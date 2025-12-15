@@ -117,7 +117,7 @@
     
   - Model Architecture (CNNs) -
 
-    - Encoder - (1, 64, 64) => (32, 32, 32) => (32, 16, 16) => (32, 8, 8) => (32, 4, 4) -> 512 => 256 => 64 => 10 (myu, logvar)
+    - Encoder - (1, 64, 64) => (32, 32, 32) => (32, 16, 16) => (32, 8, 8) => (32, 4, 4) -> 512 => 256 => 64 => 10 (mu, logvar)
     - Decoder - 10 => 64 => 256 => 512 -> (32, 4, 4) => (32, 8, 8) => (32, 16, 16) => (32, 32, 32) => (1, 64, 64)
     - Optimiser - Adam
   
@@ -155,4 +155,30 @@
       ![](./assets/reconstruction_decayingGammaVAE_CNN.png)
     - Latent Space Traversal -
       ![](./assets/latent_traversal_decayingGammaVAE_CNN.png)
-  
+
+  - Training Beta TCVAE on dsprites -
+    
+    - Model Architecture -
+
+      - Encoder - (1, 64, 64) => (32, 32, 32) => (32, 16, 16) => (32, 8, 8) => (32, 4, 4) ->(32 * 4 * 4) => 256 => 10 (mu, logvar)
+      - Decoder - 10 => 256 => 32 * 4 * 4 -> (32, 4, 4) => (32, 8, 8) => (32, 16, 16) => (32, 32, 32) => (1, 64, 64)
+
+    - Hyperparameters -
+
+      - Batch Size = 256
+      - Training Batches = 500
+      - LR = 5e-4
+      - Epochs = 120
+      - Gamma = 1
+      - Beta = 4.5
+      - Anneal Steps = 5000
+    
+    - Results -
+
+      - Loss Graph -
+      ![](./assets/ELBO_loss_BetaTCVAE.png)
+      ![](./assets/loss_graph_BetaTCVAE.png)
+      - Reconstruction -
+      ![](./assets/reconstruction_BetaTCVAE.png)
+      - Latent Traversal -
+      ![](./assets/latent_traversal_BetaTCVAE.png)
