@@ -182,3 +182,41 @@
       ![](./assets/reconstruction_BetaTCVAE.png)
       - Latent Traversal -
       ![](./assets/latent_traversal_BetaTCVAE.png)
+
+---
+
+## Stage 2 : Training of Outlier Detection Model -
+
+  - Training Beta TCVAE on Shapes3d dataset -
+
+    - Model Architecture -
+
+      - Encoder - (3, 64, 64) => (32, 32, 32) => (64, 16, 16) => (128, 8, 8) => (256, 4, 4)-> 4096 => 256 => 12 (mu, logvar)
+      - Decoder - 12 => 256 => 4096 -> (256, 4, 4) => (128, 8, 8) => (64, 16, 16) => (32, 32, 32) => (3, 64, 64)
+
+    - Hyparameters -
+
+      - Batch Size = 128
+      - Training = 500
+      - LR = 5e-4
+      - Epochs = 50
+      - Gamma = 1
+      - Beta = 6
+      - Anneal Steps = 5000
+      - Latent Dimensions = 12
+    
+    - Results -
+
+      - Loss Graph -
+      ![](./assets/loss_graph_BetaTCVAE_shapes3d.png)
+      ![](./assets/loss_graph_ELBO_BetaTCVAE_shapes3d.png)
+      - Reconstruction -
+      ![](./assets/reconstruction_BetaTCVAE_shapes3d.png)
+      - Latent Traversal -
+      ![](./assets/latent_traversal_BetaTCVAE_shapes3d.png)
+
+      - SSIM score = 0.9195
+      - MIG score = 0.6235
+
+      - Correlation Matrix -
+      ![](./assets/correlation_matrix_BetaTCVAE_shapes3d.png)
