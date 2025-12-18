@@ -220,3 +220,19 @@
 
       - Correlation Matrix -
       ![](./assets/correlation_matrix_BetaTCVAE_shapes3d.png)
+    
+  - Outlier Detection Results -
+
+    - Semantic outlier detection -
+      - 350 samples, 25 outliers and 325 normal samples
+      - Normal criteria - fixed shape, wall hue and object hue, variable floor hue, scale and orientation
+      - outlier criteria - any object other than the ones in normal criteria
+
+      - Results -
+        - Line Graph of MD score -
+        ![](./assets/outlier_detection_MD_scores.png)
+        The outliers are at the end of the batch, as we can see, their MD scores are significantly higher than normal images
+        - Histogram of MD score density -
+        ![](./assets/outlier_detection_histogram.png)
+        The blue bars are density of MD scores of normal images, whereas the red ones are for outlier images, as we can see, there is nearly perfect seaparation between the two
+        - Area Under ROC score - 0.9990
