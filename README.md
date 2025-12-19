@@ -236,3 +236,68 @@
         ![](./assets/outlier_detection_histogram.png)
         The blue bars are density of MD scores of normal images, whereas the red ones are for outlier images, as we can see, there is nearly perfect seaparation between the two
         - Area Under ROC score - 0.9990
+
+## Stage 3 : Understanding the Model -
+
+  - Counterfactual Generation -
+
+    - Working of the method -
+      - calculate the MD scores for the whole batch
+      - Then looking at the histogram, set a threshold value to filter outliers
+      - For the filetered outliers, calculate dimension wise Z scores
+      - The dimensions with highest Z scores for each outlier will be the ones most responsible for the high MD score
+      - Replace those dimensions with the mean value of the Normal part of the batch
+      - The image formed after this process is the Counterfactual
+
+    - This method can be used to verify the claims that can be drawn from correlation matrix, that is which dimension controls which factor
+
+    - This method can also be used to identify the generative biases of the decoder, which are because of factors which were not entangled properly and biases of the dataset used
+    
+    - Disentanglement as inferred from correlation matrix -
+      - z_0 ~ Wall Hue
+      - z_4 ~ Orientation
+      - z_7 ~ Floor Hue
+      - z_8 ~ Object Hue
+      - z_5 ~ Very roughly relates to Scale
+      - Shape is still an entangled factor
+
+    - First experiment - 
+      - Batch information - 320 samples, 20 outliers
+
+      - Normal criteria -
+        - Wall Hue - Green
+        - Shape - Sphere
+        - Fixed orientation - Forward Facing
+
+      - MD scores distribution -
+      ![](./assets/counterfact_gen1_MD_loss.png)
+
+      - Outlier distribution across dimensions -
+      ![](./assets/counterfact_gen1_dimensional_distribution.png)
+
+      - Morph from outlier to counterfact generation -
+      ![](./assets/counterfact_gen1_morphing.png)
+    
+      - Comments -
+        - The dimension of orientation is pretty well disentangled as we can see a smooth change from different orientations to the fixed one, and the second bar chart shows highest outleirs in z_4, that is the orientation dimension which we fixed while fileering for the normals directly from the dataset, hence it is verified that z_4 controls orientation
+        - Similar experiments can be done for other well disentangled aspects like wall hu, floor hue, object hue, and orientation
+
+    - Second Experiment -
+      - Batch information - 320 samples, 20 outliers
+
+      - Normal Criteria - 
+        - Wall Hue - Green
+        - Floor Hue - Yellow
+        - Orientation - fixed
+        
+      - Outlier distribution across dimensions -
+        ![](./assets/counterfact_gen2_dimensional_distribution.png)
+
+      - Morph from outlier to counterfact generation -
+        ![](./assets/counterfact_gen2_morphing.png)      
+
+      - Comments -
+        - The dimensions z_0, z_4, and z_7 see a spike in number of outliers, this is because we fixed the factors associated with them, floor hue, wall hue and orientation
+        - Changing the floor color leads to noise in the shape, we can see that in morph table row 2 and 5, the similar behaviour is not shown in row 1 and 3, where other factors stay same
+        - This is likely an indication to the decoder's bias, as shape does not have a dedicated dimension, we can see in the correlation matrix that it is spreaded across multiple dimensions, so latent codes do not have much role in deciding the shape
+        - The decoder bias could be introduced due to the bias of the dataset it was trained on
