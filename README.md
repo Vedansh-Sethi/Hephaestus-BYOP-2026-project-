@@ -2,11 +2,13 @@
 
 ## Aim of Project -
 
-- The project is to be implemented in 3 stages
-- The first stage :- It aims to identify outliers using context of a batch of input pictures
-- The second stage :- It aims to interpret the reason why the model ranked the pictures the way it did
-- The third stage :- Using generative models, I plan to explore the latent space with the context of input pictures
+This Project aims to study disentanglement with respect to outlier detection based on context given in input image batch, and to study the model's internal working
 
+This project was made as a part of recruitment task for DSG at IIT Roorkee for first year students.
+
+The original proposal contains the raw idea before the project started
+The Mid Evaluation Report contains the details of the project as per 22nd December
+The End Evaluation Report contains the final details of the project
 ---
 
 ## Stage 1 : Experimentation -
@@ -301,3 +303,69 @@
         - Changing the floor color leads to noise in the shape, we can see that in morph table row 2 and 5, the similar behaviour is not shown in row 1 and 3, where other factors stay same
         - This is likely an indication to the decoder's bias, as shape does not have a dedicated dimension, we can see in the correlation matrix that it is spreaded across multiple dimensions, so latent codes do not have much role in deciding the shape
         - The decoder bias could be introduced due to the bias of the dataset it was trained on
+  
+  - Latent Plane Traversal -
+    
+    - Working of the method -
+      - The shape attribute looks to be spread across two latent dimensions, z_5 and z_10
+      - I suppose that like other factors being projected across an axis, the factor of shape has been projected on a plane defined by axes z_5 and z_10
+      - So I make a graph of images on that co-ordinate plane such that z_5 varies from -2 to 2 and same with z_10
+    
+    - Results -
+
+      ![](./assets/Latent_plane_traversal.png)
+    
+  - GradCAM -
+
+    - Target 1 : Floor Hue (z_7) -
+      - The floor hue is pretty well encoded in z_7 and behaves as expected, it focuses on the floor for it's output
+      - Examples - 
+
+        ![](./assets/floor_hue_gradCAM1.png)
+        
+        ![](./assets/floor_hue_GradCAM2.png)
+
+    
+    - Target 2 : Wall Hue (z_0) -
+      - The Wall hue is encoded in z_0 and behaves as expected, it focuses on the wall for it's output
+      - Examples -
+
+      ![](./assets/wall_hue_GradCAM1.png)
+
+      ![](./assets/wall_hue_GradCAM2.png)
+
+    - Target 3 : Orientation (z_4) -
+
+      - If value of z_4 is positive, the focus of positive activations remain on a constant region of the image for a certain orientation
+      - This happend till z_4 > 0.25, as the orientation moves to more forward facing and as z_4 approaches 0, the model gets confused where to look to decide the orientation
+      - as z_4 becomes less than -0.3, the layer's negative activations start to show the same behavior as posiitve activation in he first case
+      - The negative activation in first case, and positive activation in 3rd case show scattered focus and likely do not matter much in decision making
+
+      - The constant areas of focus for values of z_4 > 0.25 and z_4 < -0.3 -
+
+      ![](./assets/orientation_GradCAM1.png)
+
+      ![](./assets/orientation_GradCAM2.png)
+
+      ![](./assets/orientation_GradCAM3.png)
+
+      - The confusion for -0.3 < z_4 < 0.25 -
+
+      ![](./assets/confused_orientation_GradCAM1.png)
+
+      ![](./assets/confused_orientation_GradCAM2.png)
+
+      For the same images, the above one is the focus of negative activations and below is the focus of positive activations
+
+    - Target 4 : Object Hue (z_8) -
+    
+      - This works by observing the wall hue and floor hue rather than object itself
+      - The floor hue and the wall hue are focused on by different activations, either by negative or by positive
+      - This behavior is most notable when -2 < z_8  < 2
+      - This is the only notable pattern, and this fails for certain combinations of z_0, z_7 and z_8
+
+      - Examples -
+
+      ![](./assets/object_hue_GradCAM1.png)
+
+      ![](./assets/object_hue_GradCAM2.png)
