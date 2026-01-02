@@ -6,9 +6,9 @@ This Project aims to study disentanglement with respect to outlier detection bas
 
 This project was made as a part of recruitment task for DSG at IIT Roorkee for first year students.
 
-The original proposal contains the raw idea before the project started
-The Mid Evaluation Report contains the details of the project as per 22nd December
-The End Evaluation Report contains the final details of the project
+- The original proposal contains the raw idea before the project started
+- The Mid Evaluation Report contains the details of the project as per 22nd December
+- The End Evaluation Report contains the final details of the project
 ---
 
 ## Stage 1 : Experimentation -
