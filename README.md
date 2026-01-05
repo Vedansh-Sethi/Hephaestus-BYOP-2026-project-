@@ -340,6 +340,7 @@ This project was made as a part of recruitment task for DSG at IIT Roorkee for f
       - This happend till z_4 > 0.25, as the orientation moves to more forward facing and as z_4 approaches 0, the model gets confused where to look to decide the orientation
       - as z_4 becomes less than -0.3, the layer's negative activations start to show the same behavior as posiitve activation in he first case
       - The negative activation in first case, and positive activation in 3rd case show scattered focus and likely do not matter much in decision making
+      - As you will see in the pictures provided, in the region of z_4 where it is confident, it makes use of the visibility of sky to understand the orientation of the block rather than the object itself
 
       - The constant areas of focus for values of z_4 > 0.25 and z_4 < -0.3 -
 
